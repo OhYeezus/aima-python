@@ -1,0 +1,50 @@
+#Comparing polygons-Luis Serrano-09/20/2022
+x = input("What is your first shape?")
+y = int(input("What is the length of its side?"))
+w = input("What is your second shape?")
+z = float(input("What is the length of its side?"))
+A1 = "Area"
+A2 = "Area"
+P1 = "Permimeter"
+P2 = "Perimeter"
+if x == "triangle":
+    A1 = (math.sqrt(3)/4*y**2)
+if x == "square":
+   A1 = y**2
+if x == "hexagon":
+   A1 = (3*math.sqrt(3)/2*y**2)
+
+if w == "triangle":
+    A2 = ((3**2)/4*z**2)
+if w == "square":
+   A2 = z**2
+if w == "hexagon":
+   A2 = (3)((3**2)/2*z**2)
+
+if x == "triangle":
+    P1 = 3*y  
+if x == "square":
+   P1 = 4*y
+if x == "hexagon":
+   P1 = 6*y
+
+if x == "triangle":
+    P2 = 3*z
+if x == "square":
+    P2 = 4*z
+if x == "hexagon":
+    P2 = 6*z
+
+if A1 > A2:
+    print("Polygon 1's area is larger",A1,A2)
+else:
+        print("Polygon 2's area is larger",A1,A2 )
+if A1 == A2:
+    print("The areas are equal",A1,A2 )
+
+if P1 > P2:
+    print("Polygon 1's perimeter is larger",P1,P2)
+else:
+     print("Polygon 2's perimeter is larger" ,P1, P2)
+if P1 == P2:
+    print("The perimeters are equal", P1, P2)
