@@ -1,8 +1,11 @@
+#JESUS CHAVEZ
+
 import os.path
 import random
 import time
 from functools import partial
 from tkinter import *
+import sys
 
 from search import astar_search, EightPuzzle
 
@@ -16,8 +19,66 @@ solution = None
 
 b = [None] * 9
 
+class Node:
+    def __init__(self, state, parent=None, action=None, path_cost=0):
+        """Create a search tree Node, derived from a parent by an action."""
+        self.state = state
+        self.parent = parent
+        self.action = action
+        self.path_cost = path_cost
+        self.depth = 0
+        if parent:
+            self.depth = parent.depth + 1
 
-# TODO: refactor into OOP, remove global variables
+    def __repr__(self):
+        return "<Node {}>".format(self.state)
+
+    def __lt__(self, node):
+        return self.state < node.state
+
+    def expand(self, problem):
+        """List the nodes reachable in one step from this node."""
+        return [self.child_node(problem, action)
+                for action in problem.actions(self.state)]
+
+    def child_node(self, problem, action):
+        """[Figure 3.10]"""
+        next_state = problem.result(self.state, action)
+        next_node = Node(next_state, self, action, problem.path_cost(self.path_cost, self.state, action, next_state))
+        return next_node
+
+    def solution(self):
+        """Return the sequence of actions to go from the root to this node."""
+        return [node.action for node in self.path()[1:]]
+
+    def path(self):
+        """Return a list of nodes forming the path from the root to this node."""
+        node, path_back = self, []
+        while node:
+            path_back.append(node)
+            node = node.parent
+        return list(reversed(path_back))
+
+
+    def __eq__(self, other):
+        return isinstance(other, Node) and self.state == other.state
+
+    def __hash__(self):
+        return hash(self.state)
+
+
+
+#Misplaced Tiles Function
+def h(self, node):
+        print(sum(s != g for (s, g) in zip(node.state, self.goal)))
+
+# Manhattan Heuristic Function
+def h2(self, node):
+    x1, y1 = node.state.get_location()
+    x2, y2 = self.goal
+
+    print(abs(x2 - x1) + abs(y2 - y1))
+
 
 def scramble():
     """Scrambles the puzzle starting from the goal state"""
@@ -135,6 +196,7 @@ def create_static_buttons():
     solve_btn = Button(root, text='Solve', font=('Helvetica', 30, 'bold'), width=8, command=partial(solve_steps))
     solve_btn.grid(row=3, column=2, ipady=10)
 
+        
 
 def init():
     """Calls necessary functions"""
